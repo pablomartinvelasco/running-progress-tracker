@@ -1,9 +1,18 @@
 # main.py
 
 from fastapi import FastAPI
+from pydantic import BaseModel
 
 app = FastAPI()
 
-@app.get("/")
-def read_root():
-    return {"message": "Running Progress Tracker API working correctly!"}
+class Training(BaseModel):
+    distance_km: float
+    pace_min_per_km: float
+    notes: str
+
+@app.post("/training")
+def create_training(training: Training):
+    return {
+        "message": "Entrenamiento recibido correctamente",
+        "data": training.model_dump()
+    }
